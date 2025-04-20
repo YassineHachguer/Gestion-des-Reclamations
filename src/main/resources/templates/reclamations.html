@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/lthymeeaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Yassine HACHGUER</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+
+</head>
+<body>
+<div layout:fragment="content1">
+
+
+    <div class="p-3">
+        <div class="card">
+            <div class="card-header">Liste reclamations</div>
+            <div class="card-body">
+                <form method="get" th:action="@{/user/index}">
+                    <label>Keyword:</label>
+                    <input type="text" name="keyword" th:value="${keyword}">
+                    <button type="submit" class="btn btn-info">Chercher</button>
+                </form>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Numéro</th> <th>Object</th> <th>Date Reclamation</th> <th>Email</th> <th>Traitement</th>
+                    </tr>
+                    <tr th:each="p:${listeReclamations}">
+                        <td th:text="${p.numero}"></td>
+                        <td th:text="${p.objet}"></td>
+                        <td th:text="${p.dateReclamation}"></td>
+                        <td th:text="${p.email}"></td>
+                        <td th:text="${p.traitement}"></td>
+                        <td>
+                            <a onclick="return confirm('Etes vous sure')" th:href="@{/admin/delete(numero=${p.numero},keyword=${keyword},page=${currentPage})}" class="btn btn-danger">Delete</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/admin/editReclamation(numero=${p.numero},keyword=${keyword},page=${currentPage})}" class="btn btn-secondary">Edit</a>
+                        </td>
+                        <td>
+                            <span th:if="${p.traitement}">✔️Traitée</span>
+                            <a th:if="${!p.traitement}"
+                               th:href="@{'/admin/traiter'(numero=${p.numero}, keyword=${keyword}, page=${currentPage})}"
+                               onclick="return confirm('Êtes-vous sûr de vouloir traiter cette réclamation ?')"
+                               class="btn btn-success">
+                                Traiter
+                            </a>
+                        </td>
+
+                    </tr>
+                    </thead>
+                </table>
+                <ul class="nav nav-pills">
+                    <li th:each="page,status:${pages}">
+                        <a th:href="@{/user/index(page=${status.index},keyword=${keyword})}"
+                           th:class="${currentPage==status.index?'btn btn-info ms-1':'btn btn-outline-info ms-1'}"
+                           th:text="${status.index}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

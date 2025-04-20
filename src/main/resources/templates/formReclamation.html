@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/lthymeeaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Reclamatiom Form</title>
+    <link rel="stylesheet" type="text/css"  href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css">
+
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="col-md-6 offset-3">
+        <form method="post" th:action="@{save}">
+            <div>
+                <label>Titre</label>
+                <input class="form-control" type="text" name="objet" th:value="${reclamation.objet}">
+                <span class="text-danger" th:errors="${reclamation.objet}"></span>
+            </div>
+            <div>
+                <label>Date de reclamation</label>
+                <input class="form-control" type="date" name="dateReclamation" th:value="${reclamation.dateReclamation}">
+                <span class="text-danger" th:errors="${reclamation.dateReclamation}"></span>
+            </div>
+            <div>
+                <label>Email</label>
+                <input  class="form-control" type="text" name="email" th:checked="${reclamation.email}">
+                <span class="text-danger" th:errors="${reclamation.email}"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+
+
+
+</div>
+</body>
+</html>
